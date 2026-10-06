@@ -1,0 +1,181 @@
+/* 生物課程配色：青綠 */
+:root { --accent: #0f7f86; --accent-soft: #dcf1f2; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --accent: #4cc3c9; --accent-soft: #163236; }
+}
+:root[data-theme="dark"] { --accent: #4cc3c9; --accent-soft: #163236; }
+
+/* ---------- 生物互動圖 ---------- */
+.w-bg { fill: var(--surface); }
+.w-map-diagram { max-width: 460px; }
+.w-part { cursor: pointer; outline: none; transition: filter .15s, opacity .15s; }
+.w-part:hover { filter: brightness(1.08) drop-shadow(0 0 3px rgba(15,127,134,.6)); }
+.w-part.on { filter: drop-shadow(0 0 4px #e5533c) brightness(1.05); stroke: #e5533c !important; stroke-width: 3; }
+.w-part.ok { filter: drop-shadow(0 0 6px #23824f); stroke: #23824f !important; stroke-width: 4; }
+.w-part.bad { filter: drop-shadow(0 0 6px #b93b3b); stroke: #b93b3b !important; stroke-width: 4; }
+.w-order-q { font-size: 15px; margin: 4px 0 8px; }
+.w-order-track { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 10px; }
+.w-order-track i { color: var(--muted); font-style: normal; }
+.w-slot { min-width: 64px; padding: 6px 10px; border: 2px dashed var(--border); border-radius: 8px; text-align: center; color: var(--muted); font-size: 14px; }
+.w-slot.ok { border-style: solid; border-color: var(--ok); background: var(--ok-soft); color: var(--text); font-weight: 700; }
+.w-legend-row { font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 6px 0; }
+.w-ul { margin: 4px 0; padding-left: 1.2em; }
+
+/* 顯微鏡 */
+.w-metal { fill: #8c96a3; stroke: #5d6670; stroke-width: 1.5; }
+.w-metal-l { fill: #c3cad3; stroke: #5d6670; stroke-width: 1.5; }
+.w-metal-d { fill: #4a535e; stroke: #2d343b; stroke-width: 1.5; }
+.w-obj { fill: #d9c27a; stroke: #8a7536; stroke-width: 1.5; }
+.w-slide { fill: #bfe3f2; stroke: #6aa9c4; }
+.w-lamp { fill: #f5d76e; stroke: #c99a1e; stroke-width: 2; }
+.w-knob { fill: #6b7580; stroke: #3d444b; stroke-width: 2; }
+.w-knob2 { fill: #a8b1bb; stroke: #3d444b; stroke-width: 2; }
+.w-scope-wrap { flex: 0 1 320px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.w-scope-view { width: 100%; max-width: 300px; height: auto; display: block; }
+.w-scope-bg { fill: #fdf8ec; }
+.w-scope-ring { fill: none; stroke: #2d343b; stroke-width: 10; }
+.w-onion { fill: #fbf1d8; stroke: #c9b07a; stroke-width: 1.4; }
+.w-onion-n { fill: #b07a3a; }
+.widget svg text.w-letter { fill: #333; font-weight: 800; stroke: none; }
+.w-pad { display: grid; justify-items: center; gap: 4px; }
+.w-pad > div { display: flex; gap: 30px; }
+
+/* 細胞 */
+.w-cyto-a { fill: #fdeee6; }
+.w-cyto-p { fill: #eef7e6; }
+.w-mem { fill: none; stroke: #d9826b; stroke-width: 7; }
+.w-cyto-p.w-mem { fill: #eef7e6; stroke: #b5d48f; stroke-width: 4; }
+.w-nuc { fill: #c9a0dc; stroke: #8a5aa5; stroke-width: 2; }
+.w-nucleolus { fill: #7d4a9a; }
+.w-mito { fill: #f4a261; stroke: #c66f2b; stroke-width: 1.5; }
+.w-mito-in { fill: none; stroke: #c66f2b; stroke-width: 1.2; }
+.w-vac-s { fill: #bfe0f5; stroke: #6aa9c4; }
+.w-vac { fill: #cfe8f7; stroke: #6aa9c4; stroke-width: 2; }
+.w-wall { fill: none; stroke: #6aa84f; stroke-width: 14; }
+.w-chloro { fill: #58a55c; stroke: #2e6b33; stroke-width: 1.2; }
+
+/* 擴散與滲透 */
+.w-beaker { fill: #eaf5fb; stroke: var(--border); stroke-width: 2; }
+.w-divider { stroke: var(--muted); stroke-dasharray: 4 4; }
+.w-mol { fill: #e5533c; }
+.w-sol-water { fill: #e4f2fb; }
+.w-sol-iso { fill: #dce9f2; }
+.w-sol-salt { fill: #e9e4f2; }
+.w-salt-dot { fill: #8e5bd6; opacity: .7; }
+.w-rbc { fill: #e5533c; stroke: #a8321f; stroke-width: 3; }
+.w-rbc.shrink { stroke-dasharray: 6 3; }
+.w-water-arrow { stroke: #2c7fd0; stroke-width: 4; stroke-linecap: round; }
+
+/* 養分實驗與酵素 */
+.w-lab-table { width: 100%; margin-top: 10px; font-size: 13px; }
+.w-lab-table td.pos { background: var(--ok-soft); font-weight: 700; }
+.w-tube { fill: rgba(255,255,255,.6); stroke: #6d7a86; stroke-width: 3; }
+.w-liquid { transition: fill .6s; }
+.w-hotwater { fill: #f7c6b0; opacity: .7; }
+.w-paper-sheet { fill: #fffdf5; stroke: #c9b07a; }
+.w-oil-spot { fill: rgba(240,210,120,.45); stroke: rgba(200,160,60,.4); }
+.w-wet-spot { fill: none; stroke: #ccc; stroke-dasharray: 4 4; }
+.w-mini-tube { width: 90px; height: auto; display: block; margin-bottom: 8px; }
+.w-axis-l { stroke: var(--muted); stroke-width: 1.5; }
+.w-curve { fill: none; stroke: var(--accent); stroke-width: 3; }
+.w-dot-red { fill: #e5533c; stroke: #fff; stroke-width: 2; }
+.w-opt { stroke: var(--muted); stroke-dasharray: 4 4; }
+.w-eq { font-size: 15px; background: var(--surface-2); padding: 8px 10px; border-radius: 8px; margin-bottom: 8px; }
+.w-eq span { color: var(--muted); font-size: 12px; }
+.w-glass { fill: none; stroke: #8fa3b3; stroke-width: 3; }
+.w-tank-water { fill: #cfe8f7; opacity: .7; }
+.w-stem { fill: none; stroke: #3f8f45; stroke-width: 4; }
+.w-leaf { fill: #6bbf59; stroke: #3f8f45; stroke-width: 1; }
+.w-bubble { fill: #fff; stroke: #6aa9c4; stroke-width: 1.2; }
+
+/* 消化 */
+.w-torso, .w-skin, .w-head { fill: #f3d9c4; stroke: #c9a184; stroke-width: 2; }
+.w-mouth { fill: #d9534f; }
+.w-gland { fill: #f4a261; stroke: #c66f2b; }
+.w-eso { fill: none; stroke: #e58b6a; stroke-width: 12; stroke-linecap: round; }
+.w-stomach { fill: #f0a39b; stroke: #c45f55; stroke-width: 2; }
+.w-liver { fill: #9c4a3c; stroke: #6b2e24; stroke-width: 2; }
+.w-gall { fill: #6bbf59; }
+.w-pancreas { fill: #f5d76e; stroke: #c99a1e; stroke-width: 2; }
+.w-large { fill: none; stroke: #c98a5a; stroke-width: 18; stroke-linejoin: round; }
+.w-small-int { fill: none; stroke: #f0a39b; stroke-width: 12; stroke-linecap: round; }
+.w-food { fill: #fff; stroke: #333; stroke-width: 2; transition: cx .8s, cy .8s; }
+
+/* 莖與蒸散 */
+.w-stem-x { fill: #e9f5dc; }
+.w-epi { fill: none; stroke: #6aa84f; stroke-width: 8; }
+.w-xylem { fill: #d9534f; opacity: .85; }
+.w-phloem { fill: #5b8def; opacity: .85; }
+.w-cambium { fill: none; stroke: #e1a33b; stroke-width: 3; stroke-dasharray: 5 4; }
+.w-ring-svg { width: 100%; max-width: 220px; display: block; }
+.w-bark { fill: #8a6a45; }
+.w-wood { fill: #e8cfa0; }
+.w-sugar-arrow { stroke: #e1a33b; stroke-width: 4; stroke-dasharray: 6 4; animation: w-dash 1s linear infinite; }
+.w-soil { fill: #b08a5a; }
+.w-stem-l { fill: none; stroke: #3f8f45; stroke-width: 6; stroke-linecap: round; }
+.w-root { fill: none; stroke: #c9a184; stroke-width: 3; }
+.w-h2o { fill: #2c7fd0; }
+.w-vapor { fill: #9fc6e6; }
+
+/* 心臟 */
+.w-organ-box { fill: var(--surface-2); stroke: var(--border); stroke-width: 2; }
+.w-ves { fill: none; stroke-width: 10; stroke-linejoin: round; opacity: .85; transition: opacity .2s; }
+.w-ves.red { stroke: #d63031; }
+.w-ves.blue { stroke: #4f6fd6; }
+.w-ves.dim { opacity: .12; }
+.w-ch { stroke-width: 2; }
+.w-ch.red { fill: #f2a3a3; stroke: #d63031; }
+.w-ch.blue { fill: #b7c4f2; stroke: #4f6fd6; }
+.w-ch.thick { stroke-width: 6; }
+.widget svg text.w-ch-t { font-size: 13px; font-weight: 700; fill: #222; stroke: none; pointer-events: none; }
+.w-cell-red { fill: #8b0000; stroke: #fff; stroke-width: 1.5; }
+.w-cell-blue { fill: #1f3a8a; stroke: #fff; stroke-width: 1.5; }
+
+/* 腦與神經 */
+.w-cerebrum { fill: #f2b8c6; stroke: #c4768a; stroke-width: 2; }
+.w-gyri { fill: none; stroke: #c4768a; stroke-width: 2; pointer-events: none; }
+.w-cerebellum { fill: #e89bb0; stroke: #b5607a; stroke-width: 2; }
+.w-stemb { fill: #d77b97; stroke: #a8506c; stroke-width: 2; }
+.w-cord { fill: #f5d76e; stroke: #c99a1e; stroke-width: 2; }
+.w-pit { fill: #8e5bd6; stroke: #fff; stroke-width: 1.5; }
+.w-steps { padding-left: 1.4em; margin: 0 0 8px; font-size: 14px; }
+.w-steps li { color: var(--muted); }
+.w-steps li.on { color: var(--text); font-weight: 700; }
+.w-arm { fill: #f3d9c4; stroke: #c9a184; stroke-width: 2; }
+.w-muscle { fill: #d9534f; opacity: .8; }
+.w-nerve { fill: none; stroke: var(--border); stroke-width: 4; stroke-linecap: round; }
+.w-nerve.on.sens { stroke: #5b8def; }
+.w-nerve.on.mot { stroke: #e17f0e; }
+.w-nerve.on.up { stroke: #8e5bd6; }
+.w-signal { fill: #f5c542; stroke: #c99a1e; stroke-width: 2; }
+.w-react { user-select: none; cursor: pointer; display: grid; place-items: center; text-align: center; padding: 0 12px; height: 140px; border-radius: var(--radius); background: var(--surface-2); font-size: 20px; font-weight: 700; color: var(--muted); outline: none; }
+.w-react.wait { background: #b93b3b; color: #fff; }
+.w-react.go { background: #23824f; color: #fff; }
+.w-react.done { background: var(--accent-soft); color: var(--accent); }
+.w-gland2 { fill: #8e5bd6; stroke: #fff; stroke-width: 1.5; }
+.w-kidney { fill: #b5605a; stroke: #7a3a35; stroke-width: 2; }
+.w-mimosa { width: 100%; max-width: 260px; display: block; margin-bottom: 6px; }
+.w-ray { stroke: #f5c542; stroke-width: 2; stroke-dasharray: 4 4; }
+.w-pot { fill: #c0704d; }
+
+/* 呼吸、體溫、血糖、泌尿 */
+.w-airway { fill: none; stroke: #c9a184; stroke-width: 10; stroke-linecap: round; }
+.w-lung { fill: #f2a3a3; stroke: #c45f55; stroke-width: 2; }
+.w-rib { fill: none; stroke: #b9ab94; stroke-width: 7; stroke-linecap: round; opacity: .85; }
+.w-diaphragm { fill: none; stroke: #c45f55; stroke-width: 6; }
+.w-env-hot { fill: #fde3d6; }
+.w-env-cold { fill: #dbe9f7; }
+.w-shiver { animation: w-shake .12s infinite alternate; }
+@keyframes w-shake { from { transform: translateX(-1.5px); } to { transform: translateX(1.5px); } }
+.widget svg text.w-drip { font-size: 20px; stroke: none; }
+.widget svg text.w-icon-lg { font-size: 60px; stroke: none; }
+.w-normal-band { fill: var(--ok-soft); }
+.w-glu-line { fill: none; stroke: #e5533c; stroke-width: 3; }
+.w-ins-bar { fill: #5b8def; }
+.w-gcg-bar { fill: #e1a33b; }
+.w-aorta { stroke: #d63031; stroke-width: 6; opacity: .4; }
+.w-ureter { fill: none; stroke: #e1a33b; stroke-width: 7; stroke-linecap: round; }
+.w-bladder { fill: #f5d76e; stroke: #c99a1e; stroke-width: 2; }
+.w-urine { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+.w-cup { width: 60px; height: 90px; border: 3px solid var(--muted); border-top: none; border-radius: 0 0 10px 10px; position: relative; overflow: hidden; flex-shrink: 0; }
+.w-cup-fill { position: absolute; left: 0; right: 0; bottom: 0; transition: height .3s, background .3s; }

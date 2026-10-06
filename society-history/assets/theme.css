@@ -1,0 +1,44 @@
+/* 歷史課程配色：磚紅 */
+:root { --accent: #a2482b; --accent-soft: #f6e4dc; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --accent: #e58b6a; --accent-soft: #3a2420; }
+}
+:root[data-theme="dark"] { --accent: #e58b6a; --accent-soft: #3a2420; }
+
+/* ---------- 歷史互動圖 ---------- */
+.w-period { cursor: pointer; }
+.w-period rect { opacity: .85; }
+.w-period:hover rect { opacity: 1; }
+.widget svg text.w-period-label { font-size: 13px; font-weight: 700; fill: #fff; stroke: rgba(0,0,0,.25); stroke-width: 2px; }
+.w-axis { stroke: var(--muted); stroke-width: 2; }
+.w-ev { cursor: pointer; outline: none; }
+.w-ev circle { fill: var(--accent); stroke: #fff; stroke-width: 2; }
+.w-ev-stem { stroke: var(--border); stroke-width: 1.2; }
+.widget svg text.w-ev-label { font-size: 12px; fill: var(--text); }
+.w-ev.on circle { r: 9; fill: var(--w-red); }
+.widget svg .w-ev.on text.w-ev-label { font-weight: 800; fill: var(--w-red); }
+.w-order { margin: 8px 0; }
+.w-order-q { font-size: 15px; margin-bottom: 4px; }
+.w-legend-row { font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 6px 0; }
+.w-taiwan-soft { fill: var(--w-red); opacity: .8; }
+.w-base { stroke: #fff; stroke-width: 2; }
+.w-route-or, .w-route-pu { fill: none; stroke-width: 2.5; stroke-dasharray: 7 5; animation: w-dash 1.2s linear infinite; }
+.w-route-or { stroke: #e17f0e; }
+.w-route-pu { stroke: #8e5bd6; }
+.w-ah-or { fill: #e17f0e; }
+.w-node { fill: var(--surface); stroke: var(--accent); stroke-width: 2.5; }
+.w-node.tw { fill: var(--accent-soft); stroke-width: 3.5; }
+.w-flow { cursor: pointer; outline: none; }
+.w-flow-line { fill: none; stroke: #e17f0e; stroke-width: 3; stroke-dasharray: 8 6; animation: w-dash 1.2s linear infinite; }
+.w-flow.on .w-flow-line { stroke: var(--w-red); stroke-width: 5; }
+.widget svg text.w-flow-label { font-size: 13px; font-weight: 700; fill: var(--text); }
+.w-tw-inset svg { max-width: 240px; }
+.box.handout { background: var(--accent-soft); border-color: transparent; }
+.box.handout::before { content: "📌 講義補充"; display: block; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+/* 因果鏈 */
+.w-chain { display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 8px 0 12px; }
+.w-chain-node { min-width: min(100%, 360px); text-align: center; padding: 8px 14px; border-radius: 10px; background: var(--surface-2); border: 2px solid var(--border); font-weight: 700; }
+.w-chain-node.blank { border-style: dashed; color: var(--muted); background: var(--surface); }
+.w-chain-node.ok { border-color: var(--ok); background: var(--ok-soft); }
+.w-chain-arrow { color: var(--accent); line-height: 1; }
+.w-chain-opts { justify-content: center; }

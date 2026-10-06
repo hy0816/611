@@ -1,0 +1,355 @@
+/* ---------- 互動圖（widgets） ---------- */
+:root {
+  --w-sea: #dcebf6; --w-land: #e9e4d4; --w-land-edge: #b9b096; --w-county: #f3efe3; --w-grid: rgba(44,106,158,.45);
+  --w-red: #d63031; --w-blue: #0a6fc2; --w-sky: #eef6fc;
+  --w-z-land: #cbb68a; --w-z-air: rgba(120,170,230,.22); --w-z-sea: #6fa8dc; --w-z-cont: #95c0e6; --w-z-eez: #bcd8f0; --w-z-high: #e3eef8;
+  --w-city6: #2f7d5b; --w-city3: #e1a33b; --w-county-fill: #cfe3d6; --w-night: rgba(20,30,60,.32);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --w-sea: #16283a; --w-land: #2f3a2f; --w-land-edge: #56664f; --w-county: #2a3329; --w-grid: rgba(150,200,255,.4);
+    --w-red: #ff6b6b; --w-blue: #54a0ff; --w-sky: #1a2733;
+    --w-z-land: #6b5a3a; --w-z-air: rgba(120,170,230,.16); --w-z-sea: #2c5d8a; --w-z-cont: #2a4c6c; --w-z-eez: #223d55; --w-z-high: #1b2a38;
+    --w-city6: #3f9b70; --w-city3: #c48a2c; --w-county-fill: #2f4a3a; --w-night: rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"] {
+  --w-sea: #16283a; --w-land: #2f3a2f; --w-land-edge: #56664f; --w-county: #2a3329; --w-grid: rgba(150,200,255,.4);
+  --w-red: #ff6b6b; --w-blue: #54a0ff; --w-sky: #1a2733;
+  --w-z-land: #6b5a3a; --w-z-air: rgba(120,170,230,.16); --w-z-sea: #2c5d8a; --w-z-cont: #2a4c6c; --w-z-eez: #223d55; --w-z-high: #1b2a38;
+  --w-city6: #3f9b70; --w-city3: #c48a2c; --w-county-fill: #2f4a3a; --w-night: rgba(0,0,0,.45);
+}
+
+.widget { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin: 18px 0; overflow: hidden; }
+.w-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 10px 16px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.w-title { font-weight: 700; }
+.w-desc { color: var(--muted); font-size: 13px; }
+.w-body { padding: 14px 16px 16px; }
+.w-body svg { display: block; width: 100%; height: auto; }
+.w-split { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-start; }
+.w-map { flex: 1 1 360px; max-width: 620px; min-width: 0; }
+.w-map-wide { max-width: none; }
+.w-side { flex: 1 1 240px; min-width: 0; }
+.w-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px 28px; }
+.w-cell-title { font-weight: 700; color: var(--blue); }
+.w-svg-sm { max-width: 300px; margin: 0 auto; }
+.w-read { background: var(--surface-2); border-radius: 8px; padding: 8px 12px; margin-top: 10px; font-size: 15px; line-height: 1.7; }
+.w-read-lg { min-height: 5.2em; margin-top: 0; }
+.notes .widget b { background: none; }
+.w-read > b.h { display: block; color: var(--accent); }
+.w-slider { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 14px; flex-wrap: wrap; }
+.w-slider input { flex: 1 1 140px; accent-color: var(--accent); }
+.w-slider output { min-width: 9em; font-weight: 700; }
+.w-chips, .w-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.w-tabs { margin-top: 0; margin-bottom: 12px; }
+.chip { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 99px; padding: 3px 12px; font-size: 13px; font-family: inherit; cursor: pointer; }
+.chip:hover { border-color: var(--accent); }
+.chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.w-bar { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin-top: 8px; }
+.w-bar span { display: block; height: 100%; background: var(--w-red); transition: width .2s; }
+.w-toggles { display: grid; gap: 4px; margin-top: 10px; font-size: 14px; }
+.w-toggles label { display: flex; gap: 6px; align-items: flex-start; cursor: pointer; }
+.w-hint { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+.w-warn { color: var(--warn); font-size: 13px; }
+
+/* SVG 共用 */
+.widget svg text { font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.w-small { font-size: 12px; fill: var(--muted); }
+.w-label { font-size: 14px; fill: var(--text); font-weight: 700; }
+.w-label-muted { font-size: 14px; fill: var(--muted); }
+.w-label-red { font-size: 14px; fill: var(--w-red); font-weight: 700; }
+.w-label-sea { font-size: 14px; fill: var(--w-blue); font-style: italic; }
+.w-label-big { font-size: 22px; fill: var(--text); font-weight: 800; letter-spacing: .1em; }
+.w-label-big-sea { font-size: 20px; fill: var(--w-blue); font-weight: 800; letter-spacing: .1em; }
+
+/* 經線緯線 */
+.w-sphere { fill: var(--w-sea); }
+.w-sphere-edge { fill: none; stroke: var(--border); stroke-width: 1.2; }
+.w-faint { fill: none; stroke: var(--w-grid); stroke-width: .8; }
+.w-faint-eq { fill: none; stroke: var(--w-grid); stroke-width: .8; stroke-dasharray: 3 3; }
+.w-hl-blue { fill: none; stroke: var(--w-blue); stroke-width: 3.5; }
+.w-hl-red { fill: none; stroke: var(--w-red); stroke-width: 3.5; }
+.w-pole { fill: var(--text); }
+
+/* 地圖 */
+.w-sea { fill: var(--w-sea); }
+.w-land { fill: var(--w-land); stroke: var(--w-land-edge); stroke-width: .6; }
+.w-taiwan { fill: var(--w-red); }
+.w-county { fill: var(--w-county); stroke: var(--w-land-edge); stroke-width: .7; }
+.w-county:hover { fill: var(--accent-soft); }
+.show-tropic .w-tropic-county { fill: var(--warn-soft); }
+.w-grid { fill: none; stroke: var(--w-grid); stroke-width: 1; stroke-dasharray: 4 3; }
+.w-range { fill: rgba(47,125,91,.10); stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 6 4; pointer-events: none; }
+.w-tropic { fill: none; stroke: var(--w-red); stroke-width: 2.2; stroke-dasharray: 8 4; pointer-events: none; }
+.w-layer-grid path { pointer-events: none; }
+.w-point { cursor: pointer; outline: none; }
+.w-point circle { fill: var(--w-blue); stroke: #fff; stroke-width: 2; }
+.w-point:hover circle, .w-point:focus circle { r: 8; }
+.w-arrow, .w-arrow-red { stroke-width: 2.5; }
+.w-arrow { stroke: var(--w-blue); }
+.w-arrow-red { stroke: var(--w-red); }
+.w-arrowhead-blue { fill: var(--w-blue); }
+.w-arrowhead-red { fill: var(--w-red); }
+.w-arc { fill: none; stroke: var(--accent); stroke-width: 10; stroke-opacity: .35; stroke-linecap: round; }
+.w-plate { fill: none; stroke: var(--w-red); stroke-width: 3; stroke-dasharray: 9 5; }
+.w-route { fill: none; stroke: var(--w-blue); stroke-width: 1.8; stroke-dasharray: 5 4; }
+.w-city { fill: var(--text); stroke: var(--surface); stroke-width: 1.5; }
+.w-city.tw { fill: var(--w-red); }
+
+/* 時區 */
+.w-time-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
+.w-time-head input { flex: 1 1 220px; accent-color: var(--accent); }
+.w-clock { font-size: 15px; }
+.w-clock b { font-size: 24px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.w-band { fill: var(--surface); }
+.w-band.odd { fill: var(--surface-2); }
+.w-band.tw { fill: var(--warn-soft); }
+.w-tz { font-size: 11px; fill: var(--muted); }
+.w-tz.tw { fill: var(--warn); font-weight: 700; }
+.w-night { fill: var(--w-night); }
+.w-prime { stroke: var(--w-blue); stroke-width: 1.5; }
+.w-tw-line { stroke: var(--warn); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.w-dateline { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 6 4; }
+.widget svg text.w-sun { font-size: 18px; fill: #f5a623; stroke: none; }
+.w-city-label { font-size: 13px; font-weight: 700; fill: var(--text); }
+.w-calc { margin-top: 14px; border-top: 1px dashed var(--border); padding-top: 12px; }
+.w-calc-title { font-weight: 700; margin-bottom: 6px; }
+.w-calc-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 14px; }
+.w-calc-row input, .w-calc-row select { font: inherit; padding: 3px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); }
+.w-calc-row input { width: 5em; }
+.w-calc-row span { margin-left: 6px; font-weight: 700; }
+
+/* 國家領域 */
+.w-sky { fill: var(--w-sky); }
+.w-zone { cursor: pointer; outline: none; }
+.w-z-land { fill: var(--w-z-land); }
+.w-z-air { fill: var(--w-z-air); stroke: var(--w-blue); stroke-dasharray: 5 4; }
+.w-z-sea { fill: var(--w-z-sea); }
+.w-z-cont { fill: var(--w-z-cont); }
+.w-z-eez { fill: var(--w-z-eez); }
+.w-z-high { fill: var(--w-z-high); }
+.w-z-base-hit { fill: transparent; }
+.w-zone:hover, .w-zone.active { filter: brightness(1.08) saturate(1.3); stroke: var(--w-red); stroke-width: 2.5; stroke-dasharray: none; }
+.w-baseline { stroke: var(--w-red); stroke-width: 2.5; stroke-dasharray: 6 4; pointer-events: none; }
+.w-ruler { stroke: var(--muted); stroke-width: 1.2; }
+
+/* 行政區 */
+.w-legend { display: grid; gap: 6px; margin-bottom: 10px; }
+.w-leg { display: flex; align-items: center; gap: 8px; text-align: left; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 14px; cursor: pointer; }
+.w-leg b { margin-left: auto; }
+.w-leg.active { border-color: var(--accent); background: var(--accent-soft); }
+.w-sw { width: 16px; height: 16px; border-radius: 4px; display: inline-block; flex-shrink: 0; }
+.w-sw.city6 { background: var(--w-city6); }
+.w-sw.city3 { background: var(--w-city3); }
+.w-sw.county { background: var(--w-county-fill); border: 1px solid var(--w-land-edge); }
+.w-sw.island { background: transparent; border: 2.5px solid var(--w-red); }
+.w-adm { stroke: var(--surface); stroke-width: .8; cursor: pointer; transition: opacity .15s; }
+.w-adm.city6 { fill: var(--w-city6); }
+.w-adm.city3 { fill: var(--w-city3); }
+.w-adm.county { fill: var(--w-county-fill); }
+.w-adm:hover { filter: brightness(1.15); stroke: var(--text); stroke-width: 1.5; }
+.w-adm.dim { opacity: .18; }
+.w-adm-label { font-size: 12px; font-weight: 700; fill: var(--text); opacity: 0; }
+.w-adm-label.show { opacity: 1; }
+
+@media print { .widget { display: none; } }
+.w-adm.island { stroke: var(--w-red); stroke-width: 1.2; }
+
+/* ---------- 第二章互動圖 ---------- */
+.w-paper { fill: var(--surface); stroke: var(--border); }
+.w-road { stroke: var(--border); stroke-width: 10; stroke-linecap: round; }
+.w-river { fill: none; stroke: #6fa8dc; stroke-width: 7; stroke-linecap: round; opacity: .8; }
+.w-place-ring { fill: var(--surface-2); stroke: var(--border); stroke-width: 1.5; }
+.w-place-ring.from { fill: var(--blue-soft); stroke: var(--w-blue); stroke-width: 3; }
+.w-place-ring.to { fill: var(--bad-soft); stroke: var(--w-red); stroke-width: 3; }
+.widget svg text.w-icon { font-size: 22px; stroke: none; }
+.w-el { cursor: pointer; outline: none; }
+.w-el-box { fill: var(--surface); stroke: var(--muted); stroke-width: 1.2; }
+.w-el:hover .w-el-box, .w-el.active .w-el-box { stroke: var(--w-red); stroke-width: 3; fill: var(--warn-soft); }
+.w-needle { fill: var(--w-red); }
+.w-bar-dark { fill: var(--text); }
+.w-bar-light { fill: var(--surface); stroke: var(--text); stroke-width: 1; }
+.widget svg text.w-legend-txt { font-size: 12px; fill: var(--text); }
+.w-compass { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 260px; margin: 10px 0; }
+.w-compass .chip { padding: 6px 0; font-size: 14px; }
+.w-compass-c { display: grid; place-items: center; color: var(--muted); font-weight: 700; }
+.chip.ok { background: var(--ok-soft); border-color: var(--ok); color: var(--text); font-weight: 700; }
+.chip.bad { background: var(--bad-soft); border-color: var(--bad); color: var(--text); }
+.chip:disabled { cursor: default; }
+.w-ok { color: var(--ok); font-weight: 700; }
+.w-bad { color: var(--bad); font-weight: 700; }
+.w-quiz-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 14px; color: var(--muted); }
+.w-block { fill: var(--surface-2); stroke: var(--muted); }
+.w-road-hl { stroke: var(--w-red); stroke-width: 4; }
+.w-pt { fill: var(--w-red); }
+.w-ruler-box { fill: #f7e7a6; stroke: #b59a3a; }
+.w-map-sm { max-width: 460px; }
+.w-meter { display: grid; gap: 6px; margin: 10px 0; font-size: 13px; }
+.w-meter > div { display: grid; grid-template-columns: 3em 2.5em 1fr 2.5em; align-items: center; gap: 6px; }
+.w-meter i { font-style: normal; color: var(--muted); text-align: center; }
+.w-track { position: relative; height: 8px; border-radius: 99px; background: linear-gradient(90deg, var(--accent-soft), var(--surface-2)); }
+.w-track span { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); transform: translate(-50%, -50%); transition: left .2s; }
+.w-scalebar { max-width: 260px; margin-top: 8px; }
+.w-scope { fill: rgba(214,48,49,.15); stroke: var(--w-red); stroke-width: 2; }
+.w-small-label { font-size: 13px; color: var(--muted); align-self: center; }
+.w-inline { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; margin-left: 8px; cursor: pointer; }
+.w-map-contour { max-width: 680px; flex-basis: 480px; }
+.w-cfill { stroke: none; }
+.w-cline { fill: none; stroke: rgba(90,60,30,.55); stroke-width: 1; }
+.w-cline.idx { stroke-width: 2.2; stroke: rgba(90,60,30,.8); }
+.no-color .w-cline { stroke: #8a5a3b; }
+.widget svg text.w-cmark { font-size: 13px; font-weight: 700; fill: #3d2a16; stroke: rgba(255,255,255,.85); }
+.w-frame { fill: none; stroke: var(--border); stroke-width: 2; pointer-events: none; }
+.w-cut { stroke: var(--w-red); stroke-width: 3; stroke-dasharray: 7 4; pointer-events: none; }
+.w-handle { cursor: grab; outline: none; }
+.w-handle circle { fill: var(--w-red); stroke: #fff; stroke-width: 2.5; }
+.widget svg .w-handle text { fill: #fff; font-size: 13px; font-weight: 800; stroke: none; }
+.w-legend-bar { margin-top: 10px; }
+.w-ramp { height: 12px; border-radius: 6px; }
+.w-ramp-lab { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.w-small-txt { font-size: 13px; margin-top: 4px; }
+.w-profile-title { font-weight: 700; margin: 14px 0 4px; color: var(--blue); }
+.w-profile { max-width: 760px; }
+.w-pgrid { stroke: var(--border); stroke-width: 1; }
+.w-pgrid.idx { stroke: var(--muted); }
+.w-parea { fill: #c9a46b; opacity: .55; }
+.w-pline { fill: none; stroke: #7a4d24; stroke-width: 2.5; }
+.w-eq { fill: none; stroke: var(--w-red); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.w-ghost { fill: none; stroke: var(--w-red); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.w-drag-shape { fill: rgba(214,48,49,.7); stroke: var(--w-red); stroke-width: 1.5; cursor: grab; }
+.w-drag-shape:active { cursor: grabbing; }
+.w-cell { fill: var(--surface); stroke: var(--border); }
+.w-price { fill: rgba(142,91,214,.28); stroke: #8e5bd6; stroke-width: 2; stroke-dasharray: 4 3; }
+.w-road-mid { stroke: #fff; stroke-width: 2; stroke-dasharray: 8 6; }
+.w-dim { fill: var(--surface); opacity: .75; }
+.w-best { fill: none; stroke: var(--ok); stroke-width: 4; }
+.widget svg text.w-star { font-size: 24px; fill: var(--ok); }
+.score-line { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 14px; }
+.w-sort { display: grid; gap: 8px; }
+.w-sort-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.w-sort-btns { display: flex; gap: 6px; }
+.w-sort-ex { grid-column: 1 / -1; font-size: 14px; }
+.w-sort-ex:empty { display: none; }
+@media (max-width: 600px) { .w-sort-row { grid-template-columns: 1fr; } }
+.w-quiz-foot[hidden], .w-dirs[hidden] { display: none; }
+
+/* ---------- 第三～六章互動圖 ---------- */
+.w-water { fill: #8ec3ea; }
+.w-tab-sep { flex: 1; }
+.w-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: 0; }
+.w-map-xs { max-width: 420px; }
+.w-pin { cursor: pointer; outline: none; }
+.w-pin circle { stroke: #fff; stroke-width: 2; transition: r .15s; }
+.w-pin:hover circle, .w-pin.sel circle { r: 10; }
+.w-pin.ok circle { stroke: var(--ok); stroke-width: 4; r: 11; }
+.w-pin.bad circle { stroke: var(--bad); stroke-width: 4; }
+.w-pin.dim { opacity: .25; }
+.widget svg text.w-pin-label { font-size: 12px; font-weight: 700; fill: var(--text); }
+/* 板塊 */
+.w-plate-eu { fill: #c9a46b; }
+.w-plate-ph { fill: #9a8a7a; }
+.w-mountain { fill: #7fa86a; stroke: #5d7f4c; stroke-width: 1.5; }
+.w-mantle { fill: #e8a46a; opacity: .55; }
+.widget svg text.w-quake { font-size: 18px; fill: #e17f0e; stroke: none; animation: w-blink 1s infinite; }
+@keyframes w-blink { 50% { opacity: .2; } }
+/* 山脈 */
+.w-mrange { fill: none; stroke-width: 13; stroke-opacity: .6; stroke-linecap: round; cursor: pointer; transition: opacity .2s; }
+.w-mrange.dim, .w-peak.dim { opacity: .12; }
+.w-peak path { stroke: #fff; stroke-width: 1; }
+.widget svg text.w-peak-lab { font-weight: 700; fill: var(--text); }
+.w-seg { fill: transparent; }
+.w-seg.on { fill: rgba(214,48,49,.12); }
+/* 海岸 */
+.w-coastline { fill: none; stroke-width: 5; stroke-linecap: round; cursor: pointer; transition: opacity .2s; }
+.w-coastline.dim { opacity: .15; }
+.w-coast-fig svg { width: 100%; max-width: 300px; height: auto; display: block; margin: 8px 0; border-radius: 8px; }
+.w-sandbar { fill: #f1d48a; stroke: #c9a24a; }
+.w-lagoon { fill: #a9d8e8; stroke: #6fa8dc; }
+.w-reef { fill: #f29bb5; }
+.w-rock-hard { fill: #8c7b6b; }
+.w-rock-soft { fill: #d8c7a8; }
+.w-sea-cut { stroke: #fff; stroke-width: 2; }
+.widget svg text.w-wave { fill: #fff; font-size: 20px; stroke: none; }
+.w-sed { fill: #b08a4a; }
+.w-beach { fill: #f1d48a; }
+.w-roof { fill: #c0504d; }
+/* 高度與氣溫 */
+.w-thermo { height: 12px; border-radius: 99px; background: linear-gradient(90deg, #4f8ad6, #f5d76e, #e5533c); margin: 10px 0; position: relative; }
+.w-thermo-fill { height: 100%; border-right: 3px solid var(--text); border-radius: 99px 0 0 99px; background: transparent; transition: width .15s; }
+.w-snow { fill: #fff; opacity: .9; }
+.w-alt-line { stroke: var(--w-red); stroke-width: 1.5; stroke-dasharray: 6 4; }
+/* 季風 */
+.w-wind-cold, .w-wind-warm { stroke-width: 4; stroke-linecap: round; }
+.w-wind-cold { stroke: var(--w-blue); }
+.w-wind-warm { stroke: var(--w-red); }
+.w-current-cold, .w-current-warm { fill: none; stroke-width: 3; stroke-dasharray: 10 6; animation: w-dash 1.2s linear infinite; }
+.w-current-cold { stroke: #4f8ad6; }
+.w-current-warm { stroke: #e5533c; }
+@keyframes w-dash { to { stroke-dashoffset: -32; } }
+.w-tw-inset { background: var(--surface-2); border-radius: 8px; padding: 8px; margin-bottom: 10px; text-align: center; }
+.w-tw-inset svg { max-width: 160px; margin: 0 auto; }
+.w-county.w-wet, .w-sw.w-wet { fill: #4f8ad6; background: #4f8ad6; }
+.w-county.w-dry, .w-sw.w-dry { fill: #f1d48a; background: #f1d48a; }
+/* 降雨 */
+.w-sky-fill { fill: var(--w-sky); }
+.w-cloud { fill: #f4f6f8; stroke: #c7cdd4; }
+.w-drop { stroke: #4f8ad6; stroke-width: 2.5; stroke-linecap: round; animation: w-fall 1.2s linear infinite; }
+@keyframes w-fall { from { transform: translateY(0); opacity: 1; } to { transform: translateY(70px); opacity: 0; } }
+.w-cold-air { fill: rgba(79,138,214,.35); }
+.w-warm-air { fill: rgba(229,83,60,.18); }
+.w-flow-up { fill: none; stroke: var(--w-red); stroke-width: 3; stroke-dasharray: 10 8; animation: w-dash 1s linear infinite; }
+.w-sun { fill: #f5c542; }
+.w-hot-ground { fill: #e8a46a; }
+.widget svg text.w-bolt { font-size: 30px; stroke: none; }
+.w-band-arm { fill: none; stroke: #f4f6f8; stroke-width: 14; stroke-linecap: round; opacity: .85; }
+.w-spin { animation: w-ccw 6s linear infinite; }
+@keyframes w-ccw { to { transform: rotate(-360deg); } }
+.w-eye { fill: #8ec3ea; stroke: #fff; stroke-width: 2; }
+.w-months { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 10px; }
+.w-months span { text-align: center; font-size: 12px; padding: 4px 0; border-radius: 6px; background: var(--surface-2); color: var(--muted); }
+.w-months span.on { background: var(--accent); color: #fff; font-weight: 700; }
+/* 氣候圖 */
+.w-winter { fill: rgba(79,138,214,.08); }
+.w-rain { fill: #4f8ad6; }
+.w-rain2 { fill: none; stroke: #4f8ad6; stroke-width: 1.5; stroke-dasharray: 3 2; }
+.w-temp { fill: none; stroke: #e5533c; stroke-width: 2.5; }
+.w-temp2 { fill: none; stroke: #e5533c; stroke-width: 2; stroke-dasharray: 6 4; }
+.w-temp-dot { fill: #e5533c; }
+.widget svg text.w-temp-axis { fill: #e5533c; }
+/* 水循環 */
+.w-aquifer { fill: #9fc6e6; opacity: .55; }
+.w-trunk { fill: #8a5a3b; }
+.w-tree { fill: #5d9c59; }
+.w-step { cursor: pointer; }
+.w-step-path { fill: none; stroke: var(--muted); stroke-width: 3; stroke-dasharray: 8 6; }
+.w-step.on .w-step-path { stroke: var(--w-red); stroke-width: 5; animation: w-dash 1s linear infinite; }
+.widget svg text.w-step-label { font-size: 14px; font-weight: 700; fill: var(--text); }
+.widget svg .w-step.on text.w-step-label { fill: var(--w-red); font-size: 16px; }
+/* 河川 */
+.w-gravel { fill: #b9ad98; }
+.w-mini-bars { display: flex; align-items: flex-end; gap: 3px; height: 68px; margin-bottom: 10px; }
+.w-mini-bars span { flex: 1; background: #9fc6e6; border-radius: 3px 3px 0 0; }
+.w-mini-bars span.on { background: var(--w-blue); }
+.w-divide { fill: none; stroke: #8a5a3b; stroke-width: 2; stroke-dasharray: 6 4; }
+.w-riv { fill: none; stroke: #2c7fd0; stroke-width: 3; stroke-linecap: round; transition: opacity .2s; }
+.w-riv.sub { stroke-width: 2; }
+.w-riv.on { stroke: var(--w-red); stroke-width: 5; }
+.w-riv.dim { opacity: .25; }
+.w-riv-hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
+.w-res { fill: #0a6fc2; stroke: #fff; stroke-width: 1.5; }
+.w-land-stroke { fill: none; stroke: #8a6a45; stroke-width: 4; }
+.w-fan { fill: #e3c88f; }
+.w-river.thin { stroke-width: 3; }
+.w-river-flow { fill: none; stroke: #fff; stroke-width: 2; stroke-dasharray: 4 14; opacity: .8; animation: w-dash 1s linear infinite; }
+.w-zone2 { cursor: pointer; outline: none; }
+.w-zone2 rect { fill: transparent; stroke: transparent; }
+.w-zone2:hover rect { fill: rgba(214,48,49,.06); }
+.w-zone2.on rect { fill: rgba(214,48,49,.1); stroke: var(--w-red); stroke-width: 2; stroke-dasharray: 6 4; }
+.w-fig-box { flex: 0 1 240px; background: var(--surface-2); border-radius: 8px; padding: 8px; }
+.w-fig-box svg { display: block; width: 100%; height: auto; }
+/* 地下水 */
+.w-salt { fill: rgba(229,83,60,.35); }
+.w-table { fill: none; stroke: #0a6fc2; stroke-width: 2.5; stroke-dasharray: 8 5; }
+.w-well { fill: #7d8590; }
+.w-flood { fill: rgba(79,138,214,.45); }
+.w-map-mid { max-width: 760px; flex-basis: 100%; }
