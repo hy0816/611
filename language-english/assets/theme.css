@@ -1,0 +1,26 @@
+/* 配色 */
+:root { --accent: #c2185b; --accent-soft: #fbe3ec; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --accent: #f48fb1; --accent-soft: #3d1f2b; }
+}
+:root[data-theme="dark"] { --accent: #f48fb1; --accent-soft: #3d1f2b; }
+
+/* 教室用語發音 */
+.vs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.vs-item { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: inherit; cursor: pointer; font: inherit; text-align: left; }
+.vs-item:hover { border-color: var(--accent); background: var(--accent-soft); }
+.vs-en { font-weight: 600; }
+.vs-zh { font-size: .85em; color: var(--muted); }
+
+/* 字母板、自然發音 */
+.ab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 6px; margin: 8px 0; }
+.ab-key { display: flex; flex-direction: column; align-items: center; padding: 6px 0; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); font: inherit; font-size: 20px; font-weight: 700; cursor: pointer; transition: background .15s; }
+.ab-key small { font-size: 14px; font-weight: 500; color: var(--muted); }
+.ab-key.vowel { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.ab-key:hover { border-color: var(--accent); }
+.ab-key.ok { background: #2e9d5b; color: #fff; }
+.ab-key.bad { background: #d0473b; color: #fff; }
+.ab-mini { display: inline-flex; padding: 0 8px; font-size: 13px; vertical-align: middle; cursor: default; }
+.ph-big { font-size: 28px; color: var(--accent); }
+.ph-hl { color: var(--accent); }
+.ph-sub { margin: 14px 0 6px; }

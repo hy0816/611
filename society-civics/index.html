@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>國一公民（上）</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/widgets.css">
+  <link rel="stylesheet" href="assets/practice.css">
+  <link rel="stylesheet" href="assets/theme.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn" aria-label="開啟章節選單">☰</button>
+    <a class="home-link" href="../index.html" title="回課程主頁" aria-label="回課程主頁">🏠<span> 課程主頁</span></a>
+    <a class="brand" href="#home">⚖️ 國一公民・上冊</a>
+    <span class="sub">翰林版｜重點整理・名詞卡・練習題</span>
+    <button class="theme-btn" id="themeBtn" aria-label="切換深淺色">◐</button>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar" aria-label="章節">
+      <a class="nav-item nav-portal" href="../index.html"><span class="nav-no">🏠</span><span>回課程主頁</span></a>
+      <a class="nav-item" href="#home" data-id="home"><span class="nav-no">⌂</span><span>首頁 / 學習進度</span></a>
+      <div class="nav-group">章節</div>
+      <div id="chapterNav"></div>
+      <div class="nav-group">總複習</div>
+      <a class="nav-item" href="#exam" data-id="exam"><span class="nav-no">★</span><span>綜合測驗（隨機 20 題）</span></a>
+    </nav>
+    <div class="scrim" id="scrim"></div>
+
+    <main class="content" id="app"></main>
+  </div>
+
+  <script>
+    window.CHAPTERS = [];
+    window.COURSE = { key: 'civ7a', icon: '⚖️', title: '國一公民（上冊）總整理', source: '翰林版七年級上學期' };
+  </script>
+  <script src="data/ch1.js"></script>
+  <script src="data/ch2.js"></script>
+  <script src="data/ch3.js"></script>
+  <script src="data/ch4.js"></script>
+  <script src="data/ch5.js"></script>
+  <script src="data/ch6.js"></script>
+  <script src="assets/vendor/d3.min.js"></script>
+  <script src="assets/widgets-core.js"></script>
+  <script src="assets/practice.js"></script>
+  <script src="assets/civics-widgets.js"></script>
+  <script src="data/exam-sets.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

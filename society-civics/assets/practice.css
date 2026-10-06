@@ -1,0 +1,31 @@
+/* 練習工具樣式（公民、國文、英文共用） */
+.pr-q { font-size: 19px; font-weight: 700; margin: 10px 0 12px; line-height: 1.8; }
+.pr-box { font: inherit; font-size: 18px; padding: 6px 12px; width: min(100%, 20em); border: 2px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); }
+.pr-box:focus { outline: none; border-color: var(--accent); }
+.pr-box.ok { border-color: var(--ok); background: var(--ok-soft); }
+.pr-box.bad { border-color: var(--bad); background: var(--bad-soft); }
+.pr-opt { font-size: 16px; padding: 6px 16px; }
+.pr-score { font-size: 14px; color: var(--muted); align-self: center; }
+.pr-sol { margin-top: 6px; line-height: 1.9; }
+.pr-say { margin-left: 6px; vertical-align: middle; }
+.w-order-q { font-size: 15px; margin: 4px 0 8px; }
+.w-order-track { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 10px; }
+.w-order-track i { color: var(--muted); font-style: normal; }
+.w-slot { min-width: 64px; padding: 6px 10px; border: 2px dashed var(--border); border-radius: 8px; text-align: center; color: var(--muted); font-size: 14px; }
+.w-slot.ok { border-style: solid; border-color: var(--ok); background: var(--ok-soft); color: var(--text); font-weight: 700; }
+/* 排句子 */
+.bd-zh { font-size: 16px; margin: 6px 0 10px; }
+.bd-line { min-height: 48px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px 10px; border: 2px dashed var(--border); border-radius: 10px; margin-bottom: 8px; }
+.bd-word { font-size: 17px; padding: 4px 14px; }
+.bd-word.on { background: var(--accent-soft); border-color: var(--accent); }
+/* 找錯字 */
+.sp-line { font-size: 26px; letter-spacing: .08em; line-height: 2; margin: 10px 0; }
+.sp-ch { cursor: pointer; padding: 0 2px; border-radius: 6px; }
+.sp-ch:hover { background: var(--accent-soft); }
+.sp-ch.wrong { background: var(--bad-soft); color: var(--bad); font-weight: 800; text-decoration: underline wavy; }
+.sp-ch.miss { background: var(--surface-2); text-decoration: line-through; }
+/* 表格型互動 */
+.tbl-pick td, .tbl-pick th { text-align: center; }
+.tbl-pick td.on { background: var(--accent-soft); font-weight: 800; color: var(--accent); }
+.big-say { font-size: 22px; font-weight: 800; }
+.w-legend-row { font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 6px 0; }

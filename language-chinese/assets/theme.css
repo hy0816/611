@@ -1,0 +1,16 @@
+/* 配色 */
+:root { --accent: #7b3fa0; --accent-soft: #f1e6f8; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --accent: #c592e0; --accent-soft: #33223d; }
+}
+:root[data-theme="dark"] { --accent: #c592e0; --accent-soft: #33223d; }
+
+/* 詩歌形式 */
+.pf-grid { display: inline-flex; flex-direction: column; gap: 4px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; margin: 8px 0; }
+.pf-title { font-weight: 700; margin-bottom: 6px; }
+.pf-line { display: flex; align-items: center; gap: 2px; padding: 2px 4px; border-radius: 6px; }
+.pf-line.duizhang { background: var(--accent-soft); }
+.pf-no { width: 3.2em; font-size: .8em; color: var(--muted); }
+.pf-ch { display: inline-block; width: 1.6em; text-align: center; font-size: 1.15em; }
+.rhyme { color: #fff; background: var(--accent); border-radius: 4px; }
+.pf-key { padding: 0 6px; }

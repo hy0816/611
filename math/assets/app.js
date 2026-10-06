@@ -56,8 +56,59 @@
     return Object.assign({}, q, { o: order.map((i) => q.o[i]), a: order.indexOf(q.a) });
   }
   const best = (id) => store.get('best:' + id, null);
+  const tagOf = (c) => chLabel(c).replace(/ /g, '') + ' ' + c.title;
+  const tagged = (c) => c.quiz.map((q) => Object.assign({ tag: tagOf(c) }, q));
+
+  // ---------- 段考與全冊測驗 ----------
+  // 段考範圍：預設每兩章一次（no < 1 的章節如 Get Ready 併入第一次）；
+  // 可在 index.html 以 window.COURSE.terms = [['u1','u2'], …] 指定。
+  const TERM_NAMES = ['第一次段考', '第二次段考', '第三次段考'];
+  const TERM_MARKS = ['①', '②', '③'];
+  function buildTerms() {
+    let groups;
+    if (COURSE.terms) groups = COURSE.terms.map((ids) => ids.map((id) => chapters.find((c) => c.id === id)).filter(Boolean));
+    else {
+      const extra = chapters.filter((c) => c.no < 1), main = chapters.filter((c) => c.no >= 1);
+      groups = [];
+      for (let i = 0; i < main.length; i += 2) groups.push(main.slice(i, i + 2));
+      if (groups.length) groups[0] = extra.concat(groups[0]);
+    }
+    return groups.filter((g) => g.length);
+  }
+  const rangeText = (chs) => {
+    const a = chLabel(chs[0]), b = chLabel(chs[chs.length - 1]);
+    if (chs.length === 1) return a;
+    const m = a.match(/^第 (\d+) 章$/), n = b.match(/^第 (\d+) 章$/);
+    return m && n ? `第 ${m[1]}～${n[1]} 章` : `${a}～${b}`;
+  };
+  const allPool = () => chapters.flatMap(tagged);
+  const EXAMS = [];
+  buildTerms().forEach((chs, i) => {
+    const pool = chs.flatMap(tagged);
+    EXAMS.push({ key: 'exam-t' + (i + 1), group: 'term', mark: TERM_MARKS[i] || i + 1, icon: '📝',
+      name: TERM_NAMES[i] || `第 ${i + 1} 次段考`, range: rangeText(chs), pool, n: Math.min(25, pool.length), random: true,
+      desc: `範圍：${chs.map((c) => chLabel(c) + ' ' + c.title).join('、')}。從 ${pool.length} 題中隨機抽 ${Math.min(25, pool.length)} 題。` });
+  });
+  EXAMS.push({ key: 'exam', group: 'all', mark: '★', icon: '⭐', name: '全冊隨機測驗', range: '全部章節', pool: allPool(), n: 20, random: true,
+    desc: `從全冊 ${allPool().length} 題練習題中隨機抽 20 題，每次都不一樣。` });
+  (window.EXAM_SETS || []).forEach((s) => {
+    const pool = s.quiz.map((q) => {
+      const c = chapters.find((x) => x.id === q.ch);
+      return Object.assign({ tag: c ? tagOf(c) : '' }, q);
+    });
+    EXAMS.push({ key: 'exam-' + s.id, group: 'all', mark: s.mark, icon: s.icon || '📄', name: s.name, range: '全部章節', pool, n: pool.length, random: false,
+      desc: s.desc || `全冊範圍的固定試卷，共 ${pool.length} 題（題目不與各章練習題重複）。` });
+  });
+  const lastTerm = () => EXAMS.filter((e) => e.group === 'term').pop();
+  const examBadge = (ex) => { const b = best(ex.key); return b ? '最佳 ' + b.score + '/' + b.total : '尚未測驗'; };
 
   // ---------- 側欄 ----------
+  const oldExamLink = document.querySelector('.sidebar .nav-item[data-id="exam"]');
+  if (oldExamLink) {
+    const g = oldExamLink.previousElementSibling;
+    if (g && g.classList.contains('nav-group')) g.textContent = '段考衝刺';
+    oldExamLink.outerHTML = '<div id="examNav"></div>';
+  }
   function renderNav() {
     document.getElementById('chapterNav').innerHTML = chapters.map((c) => {
       const b = best(c.id);
@@ -66,6 +117,18 @@
         ${b ? `<span class="nav-score">${b.score}/${b.total}</span>` : ''}
       </a>`;
     }).join('');
+    const en = document.getElementById('examNav');
+    if (en) {
+      const item = (ex) => {
+        const b = best(ex.key);
+        return `<a class="nav-item" href="#${ex.key}" data-id="${ex.key}">
+          <span class="nav-no">${ex.mark}</span><span>${esc(ex.name)}${ex.group === 'term' ? `<small class="nav-range">${esc(ex.range)}</small>` : ''}</span>
+          ${b ? `<span class="nav-score">${b.score}/${b.total}</span>` : ''}
+        </a>`;
+      };
+      en.innerHTML = EXAMS.filter((e) => e.group === 'term').map(item).join('') +
+        '<div class="nav-group">第三次段考・全冊總複習</div>' + EXAMS.filter((e) => e.group === 'all').map(item).join('');
+    }
   }
   function markNav(id) {
     document.querySelectorAll('.nav-item').forEach((el) => el.classList.toggle('active', el.dataset.id === id));
@@ -92,13 +155,15 @@
               <span class="badge ${good ? 'good' : ''}">${b ? '最佳 ' + b.score + '/' + b.total : '尚未測驗'}</span></div>
           </a>`;
         }).join('')}
-        <a class="ch-card" href="#exam">
-          <div class="icon">⭐</div>
-          <h3>綜合測驗</h3>
-          <p>從全冊題庫隨機抽 20 題，模擬段考、檢查自己哪一章最需要加強。</p>
-          <div class="meta"><span>隨機 20 題</span>
-            <span class="badge">${best('exam') ? '最佳 ' + best('exam').score + '/20' : '尚未測驗'}</span></div>
-        </a>
+      </div>
+      <h2 class="exam-h">📝 段考衝刺</h2>
+      <div class="ch-grid">
+        ${EXAMS.filter((e) => e.group === 'term').map(examCard).join('')}
+      </div>
+      <h2 class="exam-h">⭐ 第三次段考・全冊總複習</h2>
+      <p class="exam-sub">第三次段考除了考 ${esc(lastTerm() ? lastTerm().range : '最後兩章')} 以外，也常考全冊範圍：用隨機測驗與兩份模擬卷做總複習。</p>
+      <div class="ch-grid">
+        ${EXAMS.filter((e) => e.group === 'all').map(examCard).join('')}
       </div>
       <section class="howto notes">
         <h2>建議讀書流程</h2>
@@ -106,10 +171,21 @@
           <li><b>重點整理</b>：先讀一遍，注意黃底的「考試重點」與藍底的「記憶口訣」。</li>
           <li><b>名詞卡</b>：看到名詞先自己講出意思，再點卡片翻面確認。</li>
           <li><b>練習題</b>：點選答案後立即看到解析；錯的題目回頭對照重點整理。</li>
-          <li><b>綜合測驗</b>：每章都達 8 成以上後，用綜合測驗做總複習。</li>
+          <li><b>段考衝刺</b>：考前做該次段考範圍的測驗；第三次段考再加做全冊隨機測驗與模擬卷 A、B。</li>
         </ol>
         <p class="no-print" style="color:var(--muted);font-size:14px">※ 測驗最佳成績只存在這台電腦的瀏覽器中。重點整理頁可直接列印（Ctrl+P），只會印出筆記內容。</p>
       </section>`;
+  }
+
+  function examCard(ex) {
+    const b = best(ex.key), good = b && b.score / b.total >= 0.8;
+    return `<a class="ch-card" href="#${ex.key}">
+      <div class="icon">${ex.icon}</div>
+      <h3>${esc(ex.name)}${ex.group === 'term' ? '　' + esc(ex.range) : ''}</h3>
+      <p>${esc(ex.desc)}</p>
+      <div class="meta"><span>${ex.random ? '隨機 ' : '固定 '}${ex.n} 題</span>
+        <span class="badge ${good ? 'good' : ''}">${examBadge(ex)}</span></div>
+    </a>`;
   }
 
   // ---------- 章節頁 ----------
@@ -146,7 +222,7 @@
     const i = chapters.indexOf(c);
     const prev = chapters[i - 1], next = chapters[i + 1];
     return `<span>${prev ? `<a class="btn" href="#${prev.id}">← ${chLabel(prev)} ${esc(prev.title)}</a>` : ''}</span>
-            <span>${next ? `<a class="btn" href="#${next.id}">${chLabel(next)} ${esc(next.title)} →</a>` : `<a class="btn primary" href="#exam">前往綜合測驗 →</a>`}</span>`;
+            <span>${next ? `<a class="btn" href="#${next.id}">${chLabel(next)} ${esc(next.title)} →</a>` : `<a class="btn primary" href="#${lastTerm() ? lastTerm().key : 'exam'}">前往段考衝刺 →</a>`}</span>`;
   }
 
   // ---------- 名詞卡 ----------
@@ -248,7 +324,7 @@
       const msg = pct === 1 ? '滿分！太厲害了 🎉' : pct >= 0.8 ? '很不錯！把錯的題目再看一次就更穩了。' :
         pct >= 0.6 ? '及格了，建議回到重點整理加強錯題觀念。' : '再加油！先讀重點整理、背名詞卡，再挑戰一次。';
       let weak = '';
-      if (storeKey === 'exam') {
+      if (String(storeKey).startsWith('exam')) {
         const miss = {};
         qs.forEach((q, i) => { if (answers[i] !== q.a) miss[q.tag] = (miss[q.tag] || 0) + 1; });
         const list = Object.entries(miss).sort((a, b) => b[1] - a[1]);
@@ -265,25 +341,24 @@
     }
   }
 
-  // ---------- 綜合測驗 ----------
-  function renderExam() {
-    const pool = [];
-    chapters.forEach((c) => c.quiz.forEach((q) => pool.push(Object.assign({ tag: chLabel(c).replace(/ /g, '') + ' ' + c.title }, q))));
+  // ---------- 段考／全冊測驗 ----------
+  function renderExam(ex) {
     app.innerHTML = `
       <header class="ch-head">
-        <div class="ch-kicker">⭐ 總複習</div>
-        <h1>綜合測驗</h1>
-        <p>從全冊 ${pool.length} 題中隨機抽出 20 題；每題標示出處章節，做完會統計錯題分布。</p>
+        <div class="ch-kicker">${ex.icon} ${ex.group === 'term' ? '段考衝刺・' + esc(ex.range) : '第三次段考・全冊總複習'}</div>
+        <h1>${esc(ex.name)}</h1>
+        <p>${esc(ex.desc)}每題標示出處章節，做完會統計錯題分布。</p>
       </header>
       <div id="pane" style="margin-top:18px"></div>`;
     const pane = document.getElementById('pane');
-    // 每次重新作答都重新抽題
-    const draw = () => shuffle(pool).slice(0, 20);
-    renderQuiz(pane, draw(), 'exam', true);
+    if (!ex.random) { renderQuiz(pane, ex.pool, ex.key, true); return; }
+    // 隨機卷：每次重新作答都重新抽題
+    const draw = () => shuffle(ex.pool).slice(0, ex.n);
+    renderQuiz(pane, draw(), ex.key, true);
     pane.addEventListener('click', (e) => {
       if (e.target.id === 'restart') {
         e.stopImmediatePropagation();
-        renderQuiz(pane, draw(), 'exam', true);
+        renderQuiz(pane, draw(), ex.key, true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }, true);
@@ -295,7 +370,7 @@
     document.body.classList.remove('nav-open');
     const c = chapters.find((x) => x.id === id);
     if (c) { renderChapter(c, TABS.some(([k]) => k === tab) ? tab : 'notes'); markNav(c.id); }
-    else if (id === 'exam') { renderExam(); markNav('exam'); }
+    else if (EXAMS.some((x) => x.key === id)) { renderExam(EXAMS.find((x) => x.key === id)); markNav(id); }
     else { renderHome(); markNav('home'); }
     window.scrollTo(0, 0);
   }

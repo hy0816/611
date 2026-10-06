@@ -11,6 +11,7 @@
 <body>
   <header class="topbar">
     <button class="menu-btn" id="menuBtn" aria-label="開啟章節選單">☰</button>
+    <a class="home-link" href="../index.html" title="回課程主頁" aria-label="回課程主頁">🏠<span> 課程主頁</span></a>
     <a class="brand" href="#home">📐 國一數學・上冊</a>
     <span class="sub">翰林版｜重點整理・名詞卡・練習題</span>
     <button class="theme-btn" id="themeBtn" aria-label="切換深淺色">◐</button>
@@ -18,6 +19,7 @@
 
   <div class="layout">
     <nav class="sidebar" id="sidebar" aria-label="章節">
+      <a class="nav-item nav-portal" href="../index.html"><span class="nav-no">🏠</span><span>回課程主頁</span></a>
       <a class="nav-item" href="#home" data-id="home"><span class="nav-no">⌂</span><span>首頁 / 學習進度</span></a>
       <div class="nav-group">章節</div>
       <div id="chapterNav"></div>
@@ -31,7 +33,7 @@
 
   <script>
     window.CHAPTERS = [];
-    window.COURSE = { key: 'math7a', icon: '📐', title: '國一數學（上冊）總整理', source: '依翰林版七年級上學期章節編排（每單元附無限練習產生器）' };
+    window.COURSE = { key: 'math7a', icon: '📐', title: '國一數學（上冊）總整理', source: '依翰林版七年級上學期章節編排（每單元附無限練習產生器）', terms: [['u1', 'u2', 'u3', 'u4'], ['u5', 'u6', 'u7'], ['u8', 'u9']] };
   </script>
   <script src="data/u1.js"></script>
   <script src="data/u2.js"></script>
@@ -46,6 +48,7 @@
   <script src="assets/widgets-core.js"></script>
   <script src="assets/math-core.js"></script>
   <script src="assets/math-widgets.js"></script>
+  <script src="data/exam-sets.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>

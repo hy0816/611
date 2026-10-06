@@ -33,8 +33,15 @@
       margin-left: auto; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface); color: var(--text);
       border-radius: 10px; width: 40px; height: 40px; font-size: 18px; cursor: pointer;
     }
-    .group { margin: 28px 0 12px; font-size: 14px; font-weight: 700; color: var(--muted); letter-spacing: .1em; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+    .row { margin-bottom: 26px; }
+    .group { margin: 0 0 10px; font-size: 14px; font-weight: 700; color: var(--muted); letter-spacing: .1em; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+    .card.soon { cursor: default; opacity: .75; border-style: dashed; box-shadow: none; }
+    .card.soon:hover { transform: none; border-color: var(--border); }
+    .card.soon .card-top { border-top-style: dashed; }
+    .card.soon .open { margin-top: auto; }
     .card {
       --c: #2f7d5b; --soft: #e1f0e8;
       display: flex; flex-direction: column; text-decoration: none; color: var(--text);
@@ -44,39 +51,37 @@
     .card:hover, .card:focus-visible { transform: translateY(-3px); border-color: var(--c); outline: none; }
     .card-top { display: flex; align-items: center; gap: 14px; padding: 20px 20px 12px; border-top: 6px solid var(--c); }
     .tag { margin-left: auto; align-self: flex-start; font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 99px; background: var(--soft); color: var(--c); }
-    .grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
     .icon { width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; font-size: 30px; background: var(--soft); flex-shrink: 0; }
     .card h2 { margin: 0; font-size: 22px; line-height: 1.3; }
     .card .sub { font-size: 13px; color: var(--muted); }
     .desc { padding: 0 20px; color: var(--muted); font-size: 14px; margin: 0 0 10px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 20px; margin-bottom: 14px; }
-    .chips span { font-size: 12px; padding: 2px 8px; border-radius: 99px; background: var(--surface-2); color: var(--muted); }
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); margin-top: auto; }
-    .stats div { text-align: center; padding: 10px 4px; }
-    .stats div + div { border-left: 1px solid var(--border); }
-    .stats b { display: block; font-size: 20px; color: var(--c); line-height: 1.2; font-variant-numeric: tabular-nums; }
-    .stats small { font-size: 12px; color: var(--muted); }
-    .open { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--soft); color: var(--c); font-weight: 700; }
+    .open { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--soft); color: var(--c); font-weight: 700; }
     .open span:last-child { font-size: 18px; }
-    .tips { margin-top: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; }
-    .tips h3 { margin: 0 0 6px; font-size: 17px; }
-    .tips ul { margin: 0; padding-left: 1.3em; color: var(--muted); font-size: 14px; }
     footer { margin-top: 28px; text-align: center; color: var(--muted); font-size: 13px; }
     /* 各科顏色 */
     .geo { --c: #2f7d5b; --soft: #e1f0e8; }
     .his { --c: #a2482b; --soft: #f6e4dc; }
     .bio { --c: #0f7f86; --soft: #dcf1f2; }
     .mat { --c: #3f51b5; --soft: #e4e8fa; }
+    .civ { --c: #b7791f; --soft: #fbf0d9; }
+    .chi { --c: #7b3fa0; --soft: #f1e6f8; }
+    .eng { --c: #c2185b; --soft: #fbe3ec; }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) .geo { --c: #5cbf8f; --soft: #1d3329; }
       :root:not([data-theme="light"]) .his { --c: #e58b6a; --soft: #3a2420; }
       :root:not([data-theme="light"]) .bio { --c: #4cc3c9; --soft: #163236; }
       :root:not([data-theme="light"]) .mat { --c: #8c9eff; --soft: #23284a; }
+      :root:not([data-theme="light"]) .civ { --c: #e0b25c; --soft: #3a2f1a; }
+      :root:not([data-theme="light"]) .chi { --c: #c592e0; --soft: #33223d; }
+      :root:not([data-theme="light"]) .eng { --c: #f48fb1; --soft: #3d1f2b; }
     }
     :root[data-theme="dark"] .geo { --c: #5cbf8f; --soft: #1d3329; }
     :root[data-theme="dark"] .his { --c: #e58b6a; --soft: #3a2420; }
     :root[data-theme="dark"] .bio { --c: #4cc3c9; --soft: #163236; }
     :root[data-theme="dark"] .mat { --c: #8c9eff; --soft: #23284a; }
+    :root[data-theme="dark"] .civ { --c: #e0b25c; --soft: #3a2f1a; }
+    :root[data-theme="dark"] .chi { --c: #c592e0; --soft: #33223d; }
+    :root[data-theme="dark"] .eng { --c: #f48fb1; --soft: #3d1f2b; }
     @media (max-width: 600px) {
       .wrap { padding: 20px 16px 48px; }
       header h1 { font-size: 26px; }
@@ -89,40 +94,36 @@
     <header>
       <div>
         <h1>📚 國一上學習網</h1>
-        <p>翰林版七年級上學期｜重點整理・名詞卡・練習題・互動圖。點選科目會在新分頁開啟。</p>
+        <p>七年級上學期｜重點整理・名詞卡・練習題・互動圖。</p>
       </div>
       <button class="theme-btn" id="themeBtn" aria-label="切換深淺色">◐</button>
     </header>
     <main id="courses"></main>
-    <section class="tips">
-      <h3>📝 建議讀書流程</h3>
-      <ul>
-        <li>先讀<b>重點整理</b>，搭配互動圖理解觀念。</li>
-        <li>用<b>名詞卡</b>快速記憶，看到名詞先自己說出意思再翻面。</li>
-        <li>做<b>練習題</b>，錯的題目回頭看筆記；數學每單元還有<b>無限練習產生器</b>。</li>
-        <li>每章都達 8 成以上後，用各科的<b>綜合測驗</b>做總複習。</li>
-      </ul>
-    </section>
     <footer>測驗成績只會存在這台電腦的瀏覽器中。</footer>
   </div>
 
   <script>
   (function () {
     'use strict';
-    // 各科設定：資料夾、資料檔（用來即時計算章數與題數）
+    // 各科設定
+    // ready: false 表示課程籌備中（卡片不可點選）；課程做好後改成 true
+    // 每一列放哪些領域（社會三科一列；數學與自然合併一列）
+    const ROWS = [['社會'], ['語文'], ['數學', '自然']];
     const COURSES = [
-      { group: '社會', dir: 'society-geography', cls: 'geo', icon: '🌏', name: '地理', sub: '社會領域・地理',
-        desc: '臺灣的位置、地圖、地形、海岸與島嶼、天氣與氣候、水資源。附可旋轉地球儀與大量互動地圖。',
-        files: ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6'] },
-      { group: '社會', dir: 'society-history', cls: 'his', icon: '📜', name: '歷史', sub: '社會領域・歷史（臺灣史）',
-        desc: '從史前文化、大航海時代、鄭氏時期到清帝國統治，依講義第二篇章節編排，附時間軸與因果鏈練習。',
-        files: ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6'] },
-      { group: '自然', dir: 'nature-biology', cls: 'bio', icon: '🧬', name: '生物', sub: '自然領域・生物',
-        desc: '生命現象與科學方法、細胞、營養、運輸、協調與恆定性。附顯微鏡、心臟循環、反應時間挑戰等互動。',
-        files: ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6'] },
-      { group: '數學', dir: 'math', cls: 'mat', icon: '📐', name: '數學', sub: '數學領域',
-        desc: '整數、分數與一元一次方程式。每個單元都有無限練習產生器，答完立即對答案並附詳解。',
-        files: ['u1', 'u2', 'u3', 'u4', 'u5', 'u6', 'u7', 'u8', 'u9'] }
+      { group: '社會', dir: 'society-geography', cls: 'geo', icon: '🌏', name: '地理', sub: '翰林版・社會領域・地理', ready: true,
+        desc: '臺灣的位置、地圖、地形、海岸與島嶼、天氣與氣候、水資源。附可旋轉地球儀與大量互動地圖。' },
+      { group: '社會', dir: 'society-history', cls: 'his', icon: '📜', name: '歷史', sub: '翰林版・社會領域・歷史', ready: true,
+        desc: '從史前文化、大航海時代、鄭氏時期到清帝國統治，依講義第二篇章節編排，附時間軸與因果鏈練習。' },
+      { group: '社會', dir: 'society-civics', cls: 'civ', icon: '⚖️', name: '公民', sub: '翰林版・社會領域・公民', ready: true,
+        desc: '公民身分、人性尊嚴與人權、性別平等、家庭、社會化與社區、校園自治。附情境分類、班會表決模擬等互動。' },
+      { group: '語文', dir: 'language-chinese', cls: 'chi', icon: '📖', name: '國文', sub: '康軒版・語文領域・國文', ready: true,
+        desc: '字音字形、詞語成語、修辭、標點符號、詞性句型、文體與詩歌。附多音字、找錯字、修辭判斷、近體詩分析等練習。' },
+      { group: '語文', dir: 'language-english', cls: 'eng', icon: '🔤', name: '英文', sub: '康軒版・語文領域・英文', ready: true,
+        desc: 'Get Ready（字母、自然發音、數字、星期月份）、冠詞與打招呼、be 動詞、名詞複數、所有格與疑問詞、現在簡單式、祈使句與 can。附發音播放、文法產生器與排句子。' },
+      { group: '數學', dir: 'math', cls: 'mat', icon: '📐', name: '數學', sub: '翰林版・數學領域', ready: true,
+        desc: '整數、分數與一元一次方程式。每個單元都有無限練習產生器，答完立即對答案並附詳解。' },
+      { group: '自然', dir: 'nature-biology', cls: 'bio', icon: '🧬', name: '生物', sub: '翰林版・自然領域・生物', ready: true,
+        desc: '生命現象與科學方法、細胞、營養、運輸、協調與恆定性。附顯微鏡、心臟循環、反應時間挑戰等互動。' }
     ];
 
     // 深淺色（與各科共用同一個偏好設定方式）
@@ -137,48 +138,31 @@
 
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const main = document.getElementById('courses');
-    main.innerHTML = '<div class="grid"></div>';
-    const grid = main.firstElementChild;
-    COURSES.forEach((c) => {
+    ROWS.forEach((gs) => {
+      const list = COURSES.filter((c) => gs.includes(c.group));
+      const g = gs.join('・');
+      if (!list.length) return;
+      main.insertAdjacentHTML('beforeend', `<section class="row"><div class="group">${g}領域</div><div class="grid"></div></section>`);
+      const grid = main.lastElementChild.querySelector('.grid');
+      list.forEach((c) => {
+      if (!c.ready) {
+        grid.insertAdjacentHTML('beforeend', `
+        <div class="card soon ${c.cls}" aria-disabled="true">
+          <div class="card-top"><div class="icon">${c.icon}</div><div><h2>${c.name}</h2><div class="sub">${c.sub}</div></div><span class="tag">籌備中</span></div>
+          <p class="desc">${esc(c.desc)}</p>
+          <div class="open"><span>即將推出</span><span>⏳</span></div>
+        </div>`);
+        return;
+      }
       grid.insertAdjacentHTML('beforeend', `
-        <a class="card ${c.cls}" href="${c.dir}/index.html" target="_blank" rel="noopener" data-dir="${c.dir}">
+        <a class="card ${c.cls}" href="${c.dir}/index.html" data-dir="${c.dir}">
           <div class="card-top"><div class="icon">${c.icon}</div><div><h2>${c.name}</h2><div class="sub">${c.sub}</div></div><span class="tag">${c.group}</span></div>
           <p class="desc">${esc(c.desc)}</p>
-          <div class="chips"></div>
-          <div class="stats">
-            <div><b data-s="ch">–</b><small>章節</small></div>
-            <div><b data-s="q">–</b><small>練習題</small></div>
-            <div><b data-s="cards">–</b><small>名詞卡</small></div>
-            <div><b data-s="w">–</b><small>互動圖</small></div>
-          </div>
-          <div class="open"><span>開啟課程</span><span>↗</span></div>
+          <div class="open"><span>開啟課程</span><span>→</span></div>
         </a>`);
+      });
     });
 
-    // 依序載入各科的資料檔，即時計算章節與題數（每科都會 push 到 window.CHAPTERS）
-    function load(src) {
-      return new Promise((resolve) => {
-        const s = document.createElement('script');
-        s.src = src; s.onload = resolve; s.onerror = resolve;
-        document.body.appendChild(s);
-      });
-    }
-    (async () => {
-      for (const c of COURSES) {
-        window.CHAPTERS = [];
-        for (const f of c.files) await load(`${c.dir}/data/${f}.js`);
-        const chs = window.CHAPTERS.slice().sort((a, b) => a.no - b.no);
-        const card = document.querySelector(`[data-dir="${c.dir}"]`);
-        if (!chs.length) { card.querySelector('.chips').innerHTML = '<span>（無法讀取章節資料）</span>'; continue; }
-        const set = (k, v) => { card.querySelector(`[data-s="${k}"]`).textContent = v; };
-        set('ch', chs.length);
-        set('q', chs.reduce((s, x) => s + x.quiz.length, 0));
-        set('cards', chs.reduce((s, x) => s + x.cards.length, 0));
-        set('w', chs.reduce((s, x) => s + ((x.notes || '').match(/data-widget=/g) || []).length, 0));
-        card.querySelector('.chips').innerHTML = chs.map((x) => `<span>${esc(x.title)}</span>`).join('');
-      }
-      delete window.CHAPTERS;
-    })();
   })();
   </script>
 </body>

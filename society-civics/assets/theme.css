@@ -1,0 +1,12 @@
+/* 配色 */
+:root { --accent: #b7791f; --accent-soft: #fbf0d9; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --accent: #e0b25c; --accent-soft: #3a2f1a; }
+}
+:root[data-theme="dark"] { --accent: #e0b25c; --accent-soft: #3a2f1a; }
+
+/* 班會表決 */
+.vt-bar { display: flex; height: 22px; border-radius: 11px; overflow: hidden; background: var(--border); margin: 10px 0; }
+.vt-bar span { transition: width .4s; }
+.vt-yes { background: #2e9d5b; }
+.vt-no { background: #d0473b; }
