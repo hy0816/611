@@ -66,6 +66,7 @@
     .civ { --c: #b7791f; --soft: #fbf0d9; }
     .chi { --c: #7b3fa0; --soft: #f1e6f8; }
     .eng { --c: #c2185b; --soft: #fbe3ec; }
+    .wq { --c: #1e6fb8; --soft: #e2eef9; }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) .geo { --c: #5cbf8f; --soft: #1d3329; }
       :root:not([data-theme="light"]) .his { --c: #e58b6a; --soft: #3a2420; }
@@ -74,6 +75,7 @@
       :root:not([data-theme="light"]) .civ { --c: #e0b25c; --soft: #3a2f1a; }
       :root:not([data-theme="light"]) .chi { --c: #c592e0; --soft: #33223d; }
       :root:not([data-theme="light"]) .eng { --c: #f48fb1; --soft: #3d1f2b; }
+      :root:not([data-theme="light"]) .wq { --c: #6cb4f0; --soft: #1d3346; }
     }
     :root[data-theme="dark"] .geo { --c: #5cbf8f; --soft: #1d3329; }
     :root[data-theme="dark"] .his { --c: #e58b6a; --soft: #3a2420; }
@@ -82,6 +84,7 @@
     :root[data-theme="dark"] .civ { --c: #e0b25c; --soft: #3a2f1a; }
     :root[data-theme="dark"] .chi { --c: #c592e0; --soft: #33223d; }
     :root[data-theme="dark"] .eng { --c: #f48fb1; --soft: #3d1f2b; }
+    :root[data-theme="dark"] .wq { --c: #6cb4f0; --soft: #1d3346; }
     @media (max-width: 600px) {
       .wrap { padding: 20px 16px 48px; }
       header h1 { font-size: 26px; }
@@ -108,7 +111,8 @@
     // 各科設定
     // ready: false 表示課程籌備中（卡片不可點選）；課程做好後改成 true
     // 每一列放哪些領域（社會三科一列；數學與自然合併一列）
-    const ROWS = [['社會'], ['語文'], ['數學', '自然']];
+    const ROWS = [['社會'], ['語文'], ['數學', '自然'], ['課外']];
+    const ROW_LABEL = { '課外': '課外・遊戲' };
     const COURSES = [
       { group: '社會', dir: 'society-geography', cls: 'geo', icon: '🌏', name: '地理', sub: '翰林版・社會領域・地理', ready: true,
         desc: '臺灣的位置、地圖、地形、海岸與島嶼、天氣與氣候、水資源。附可旋轉地球儀與大量互動地圖。' },
@@ -123,7 +127,9 @@
       { group: '數學', dir: 'math', cls: 'mat', icon: '📐', name: '數學', sub: '翰林版・數學領域', ready: true,
         desc: '整數、分數與一元一次方程式。每個單元都有無限練習產生器，答完立即對答案並附詳解。' },
       { group: '自然', dir: 'nature-biology', cls: 'bio', icon: '🧬', name: '生物', sub: '翰林版・自然領域・生物', ready: true,
-        desc: '生命現象與科學方法、細胞、營養、運輸、協調與恆定性。附顯微鏡、心臟循環、反應時間挑戰等互動。' }
+        desc: '生命現象與科學方法、細胞、營養、運輸、協調與恆定性。附顯微鏡、心臟循環、反應時間挑戰等互動。' },
+      { group: '課外', dir: 'world-quiz', cls: 'wq', icon: '🗺️', name: '看地圖猜國家', sub: '課外・世界地理遊戲', ready: true, cta: '開始遊戲',
+        desc: '196 個國家：在地圖上找國家、看標示選國名、看輪廓猜國家（含每日挑戰），還有國旗與首都。可選洲別與難度。' }
     ];
 
     // 深淺色（與各科共用同一個偏好設定方式）
@@ -142,7 +148,7 @@
       const list = COURSES.filter((c) => gs.includes(c.group));
       const g = gs.join('・');
       if (!list.length) return;
-      main.insertAdjacentHTML('beforeend', `<section class="row"><div class="group">${g}領域</div><div class="grid"></div></section>`);
+      main.insertAdjacentHTML('beforeend', `<section class="row"><div class="group">${ROW_LABEL[g] || g + '領域'}</div><div class="grid"></div></section>`);
       const grid = main.lastElementChild.querySelector('.grid');
       list.forEach((c) => {
       if (!c.ready) {
@@ -158,7 +164,7 @@
         <a class="card ${c.cls}" href="${c.dir}/index.html" data-dir="${c.dir}">
           <div class="card-top"><div class="icon">${c.icon}</div><div><h2>${c.name}</h2><div class="sub">${c.sub}</div></div><span class="tag">${c.group}</span></div>
           <p class="desc">${esc(c.desc)}</p>
-          <div class="open"><span>開啟課程</span><span>→</span></div>
+          <div class="open"><span>${c.cta || '開啟課程'}</span><span>→</span></div>
         </a>`);
       });
     });
